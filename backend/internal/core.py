@@ -14,13 +14,13 @@ class Core:
         log = read_logs(file)
         self.log_cache.save_log(log)
 
-        default_cliente = get_standard_client(log)
-        default_demanda = get_standard_demanda(log)
+        default_cliente, list_cliente = get_standard_client(log)
+        default_demanda, list_demanda = get_standard_demanda(log)
 
         filtered_log, output = filter_log(log, default_cliente, default_demanda)
 
         self.log_cache.save_filtered_log(filtered_log)
-
+        # retornar list_cliente e list_demanda... ainda não implementado senão crash o front.
         return output
 
     def filter_saved_log(self, cliente_filter: str = None, demanda_filter: str = None,
