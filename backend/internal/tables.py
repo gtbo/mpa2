@@ -10,15 +10,22 @@ def listar_demanda(log):
       eventos = {} 
       for event in trace: 
         tarefa = event['tarefa'] 
-        if(tarefa not in eventos): 
-          eventos[tarefa] = { 
-            'nome_atividade': tarefa, 
-            'primeira_ocorrencia': event['dt_inicio'], 
-            'quantidade': 0, 
-            'tempo': timedelta(0) 
-          } 
+        duracao = event['dt_fim'] - event['dt_inicio']    
+        if(tarefa not in eventos):                   
+            eventos[tarefa] = { 
+                'nome_atividade': tarefa, 
+                'primeira_ocorrencia': event['dt_inicio'], 
+                'quantidade': 0, 
+                'tempo': timedelta(0),
+                'duracao_minima': duracao, 
+                'duracao_maxima': duracao 
+            } 
         eventos[tarefa]['quantidade'] += 1 
-        eventos[tarefa]['tempo'] += event['dt_fim'] - event['dt_inicio'] 
+        eventos[tarefa]['tempo'] += duracao
+        if duracao > eventos[tarefa]['duracao_maxima']:
+            eventos[tarefa]['duracao_maxima'] = duracao
+        if duracao < eventos[tarefa]['duracao_minima']:
+            eventos[tarefa]['duracao_minima'] = duracao
       
         eventos[tarefa]['media'] = 0
         if eventos[tarefa]['quantidade'] > 0:
