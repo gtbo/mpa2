@@ -100,12 +100,12 @@ def get_standard_client(log):
             clientes_count[cliente] = 0
         clientes_count[cliente] += 1
     max_key = max(clientes_count, key = clientes_count.get)
-    return max_key
+    return max_key, clientes_count.keys()
 
 def get_standard_demanda(log):
     demandas = pm4py.get_event_attribute_values(log, "tp_demanda")
     max_key = max(demandas, key = demandas.get)
-    return max_key
+    return max_key, demandas.keys()
 
 def get_demandas(log):
     demandas = pm4py.get_event_attribute_values(log, "tp_demanda")
